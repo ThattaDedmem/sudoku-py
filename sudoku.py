@@ -23,8 +23,8 @@ class sudoku:
         activekey = "1"
 
         while True:
-            self.drawboard()
             pygame.display.update()
+            self.drawboard()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -55,25 +55,24 @@ class sudoku:
                             if pos[0] in range(x, x+50):
                                 if pos[1] in range(y, y+50):
                                     print(f"x: {x}, y: {y}, x/50: {x/50}, y/50: {y/50}")
-                                    if x == 0 and y != 0:
-                                        y *= 9
-                                    elif self.valid(((x, y)), activekey):
+                                    if self.valid(((x, y)), activekey):
                                         self.drawmove((x, y), activekey)
 
     def valid(self, move, key):
+        x = move[0]
+        y = move[1]
+        idx = x // 50 + y // 50 * 9
         board = self.board
-        if board[move] == "":
-            board[move] = key
-            print(board)
-            return True
-        else:
-           return False
+        board[idx] = key
+        print(board)
+        return True
 
     def drawmove(self, pos, key):
         board = self.board
         board
         img = font.render(f"{key}", True, black)
         screen.blit(img, (pos[0]+8, pos[1]+5))
+        pygame.display.update()
 
     def drawboard(self):
         pygame.draw.line(screen, black, (150, 0), (150, 450), 5)
